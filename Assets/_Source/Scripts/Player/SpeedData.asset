@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d93dff70a810697489b02aae72b018ce, type: 3}
+  m_Name: SpeedData
+  m_EditorClassIdentifier: 
+  _horizontalSpeed: 250
+  _rotateSpeed: 4
+  _freeFallSpeed: -20
+  _slowFallSpeed: -10
+  _fastFallSpeed: -30
+  _freeFlySpeed: 2000
+  _slowFlySpeed: 1000
+  _fastFlySpeed: 3000
