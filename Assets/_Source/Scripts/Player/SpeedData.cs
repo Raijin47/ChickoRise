@@ -5,6 +5,7 @@ public class SpeedData : ScriptableObject
 {
     [SerializeField] private float _horizontalSpeed;
     [SerializeField] private float _rotateSpeed;
+    [SerializeField] private float _carSpeed;
 
     [Space(10)]
     [SerializeField] private float _freeFallSpeed;
@@ -18,6 +19,7 @@ public class SpeedData : ScriptableObject
 
     public float HorizontalSpeed => _horizontalSpeed;
     public float RotateSpeed => _rotateSpeed;
+    public float CarSpeed => _carSpeed;
     public float FreeFallSpeed => _freeFallSpeed;
     public float SlowFallSpeed => _slowFallSpeed;
     public float FastFallSpeed => _fastFallSpeed;

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalSpeed: 250
   _rotateSpeed: 4
+  _carSpeed: 1000
   _freeFallSpeed: -20
   _slowFallSpeed: -10
   _fastFallSpeed: -30

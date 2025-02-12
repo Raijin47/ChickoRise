@@ -5,18 +5,18 @@ using UnityEngine;
 public class Factory : MonoBehaviour
 {
     [SerializeField] private ProjectileBase _projectile;
-    [SerializeField] private TurretBase _turret;
+    [SerializeField] private Toadstool _toadstool;
 
     private Coroutine _coroutine;
     private Pool _poolProjectile;
-    private Pool _poolTurret;
+    private Pool _poolToadstool;
 
     private readonly WaitForSeconds Interval = new(2f);
 
     private void Start()
     {
         _poolProjectile = new(_projectile);
-        _poolTurret = new(_turret);
+        _poolToadstool = new(_toadstool);
 
         Game.Action.OnEnter += Action_OnEnter;
         Game.Action.OnLose += Release;
@@ -25,32 +25,32 @@ public class Factory : MonoBehaviour
     private void Action_OnEnter()
     {
         Release();
-        _coroutine = StartCoroutine(SpawnTurretProcess());
+        _coroutine = StartCoroutine(SpawnToadstoolProcess());
     }
 
-    public void SpawnProjectile(Transform pos)
+    public void SpawnProjectile(Vector3 pos)
     {
-        var projectile = _poolProjectile.Spawn(pos.position);
+        var projectile = _poolProjectile.Spawn(pos);
 
-        projectile.transform.rotation = pos.rotation;
+        projectile.Die += Member_Die;
     }
 
-    private IEnumerator SpawnTurretProcess()
+    private IEnumerator SpawnToadstoolProcess()
     {
         while (true)
         {
-            SpawnTurret();
+            SpawnToadstool();
             yield return Interval;
         }
     }
 
-    private void SpawnTurret()
+    private void SpawnToadstool()
     {
-        Vector3 pos = new(Random.Range(-7, 7), 0, Game.Locator.Player.position.z + 300);
+        Vector3 pos = new(Random.Range(-7.5f, 7.5f), 0, Game.Locator.Target.position.z + 300);
 
-        var turret = _poolTurret.Spawn(pos);
+        var toadstool = _poolToadstool.Spawn(pos);
 
-        turret.Die += Member_Die;
+        toadstool.Die += Member_Die;
     }
 
     private void Member_Die(PoolMember obj)

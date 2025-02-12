@@ -36,26 +36,28 @@ public class PlayerBase : MonoBehaviour
     {
         if (!IsActive) return;
 
-        _angle = _input.Horizontal == 0 ? 0 : _input.Horizontal > 0 ? -LimitAngle : LimitAngle;
+        //_angle = _input.Horizontal == 0 ? 0 : _input.Horizontal > 0 ? -LimitAngle : LimitAngle;
 
-        _pivot.localRotation = Quaternion.Lerp(_pivot.localRotation, Quaternion.Euler(new Vector3(0, 0, _angle)), Time.deltaTime * _speed.RotateSpeed);
+        //_pivot.localRotation = Quaternion.Lerp(_pivot.localRotation, Quaternion.Euler(new Vector3(0, 0, _angle)), Time.deltaTime * _speed.RotateSpeed);
     }
 
     private void FixedUpdate()
     {
         if (!IsActive) return;
 
-        float gravity = _input.Vertical == 0 ? _speed.FreeFallSpeed : 
-            _input.Vertical > 0 ? _speed.SlowFallSpeed : _speed.FastFallSpeed;
+        _rigidbody.velocity = _speed.CarSpeed * Time.fixedDeltaTime * Vector3.forward;
 
-        float horizontal = _input.Horizontal * _speed.HorizontalSpeed;
+        //float gravity = _input.Vertical == 0 ? _speed.FreeFallSpeed : 
+        //    _input.Vertical > 0 ? _speed.SlowFallSpeed : _speed.FastFallSpeed;
 
-        float forward = _input.Vertical == 0 ? _speed.FreeFlySpeed : 
-            _input.Vertical > 0 ? _speed.FastFlySpeed : _speed.SlowFlySpeed;
+        //float horizontal = _input.Horizontal * _speed.HorizontalSpeed;
 
-        Vector3 direction = new(horizontal, gravity, forward);
+        //float forward = _input.Vertical == 0 ? _speed.FreeFlySpeed : 
+        //    _input.Vertical > 0 ? _speed.FastFlySpeed : _speed.SlowFlySpeed;
 
-        _rigidbody.velocity = Time.fixedDeltaTime * direction;
+        //Vector3 direction = new(horizontal, gravity, forward);
+
+        //_rigidbody.velocity = Time.fixedDeltaTime * direction;
     }
 
     private void Action_OnExit()
