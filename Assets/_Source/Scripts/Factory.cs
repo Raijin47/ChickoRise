@@ -5,18 +5,21 @@ using UnityEngine;
 public class Factory : MonoBehaviour
 {
     [SerializeField] private ProjectileBase _projectile;
+    [SerializeField] private PlayerProjectile _lightball;
     [SerializeField] private Toadstool _toadstool;
 
     private Coroutine _coroutine;
     private Pool _poolProjectile;
     private Pool _poolToadstool;
+    private Pool _poolLightball;
 
-    private readonly WaitForSeconds Interval = new(2f);
+    private readonly WaitForSeconds IntervalSpawn = new(7.5f);
 
     private void Start()
     {
         _poolProjectile = new(_projectile);
         _poolToadstool = new(_toadstool);
+        _poolLightball = new(_lightball);
 
         Game.Action.OnEnter += Action_OnEnter;
         Game.Action.OnLose += Release;
@@ -35,12 +38,20 @@ public class Factory : MonoBehaviour
         projectile.Die += Member_Die;
     }
 
+    public void SpawnLightball(Vector3 pos, Vector3 target)
+    {
+        var lightball = _poolLightball.Spawn(pos);
+        lightball.transform.LookAt(target);
+
+        lightball.Die += Member_Die;
+    }
+
     private IEnumerator SpawnToadstoolProcess()
     {
         while (true)
         {
             SpawnToadstool();
-            yield return Interval;
+            yield return IntervalSpawn;
         }
     }
 

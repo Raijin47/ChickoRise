@@ -7,7 +7,7 @@ public class Toadstool : PoolMember
 
     private Coroutine _coroutine;
 
-    private readonly WaitForSeconds Interval = new(2f);
+    private readonly WaitForSeconds Interval = new(5f);
 
     public override void Init() => Resurrect();
 
@@ -19,11 +19,13 @@ public class Toadstool : PoolMember
     
     private IEnumerator UpdateProcess()
     {
-        while (true)
+        while (transform.position.z > Game.Locator.Target.position.z)
         {
             yield return Interval;
             Game.Locator.Factory.SpawnProjectile(_spawnPoint.position);
         }
+
+        ReturnToPool();
     }
 
     private void ReleaseCoroutine()

@@ -30,8 +30,10 @@ public class ProjectileBase : PoolMember
             Vector3 direction = Game.Locator.Target.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
 
-            //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, 100 * Time.deltaTime);
-
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position,
+            //    Game.Locator.Target.position,
+            //    _speed * Time.deltaTime);
             transform.position += _speed * Time.deltaTime * transform.forward;
 
             yield return null;
@@ -61,7 +63,8 @@ public class ProjectileBase : PoolMember
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerBase _))
-            Debug.Log("TakeDamage");
+        //if (other.TryGetComponent(out PlayerBase _))
+        Game.Locator.Player.ChangeState();
+        ReturnToPool();
     }
 }
