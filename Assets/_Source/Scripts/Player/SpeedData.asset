@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalSpeed: 250
   _rotateSpeed: 4
-  _normalGroundSpeed: 50
-  _fastGroundSpeed: 400
-  _horizontalGroundSpeed: 50
+  _normalGroundSpeed: 600
+  _fastGroundSpeed: 600
+  _horizontalGroundSpeed: 100
   _freeFallSpeed: -20
   _slowFallSpeed: -10
   _fastFallSpeed: -30

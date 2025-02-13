@@ -4,6 +4,7 @@ using UnityEngine;
 public class Toadstool : PoolMember
 {
     [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private Transform _target;
 
     private Coroutine _coroutine;
 
@@ -22,8 +23,10 @@ public class Toadstool : PoolMember
         while (transform.position.z > Game.Locator.Target.position.z)
         {
             yield return Interval;
-            Game.Locator.Factory.SpawnProjectile(_spawnPoint.position);
+            Game.Locator.Factory.SpawnFireball(_spawnPoint.position);
         }
+
+        yield return Interval;
 
         ReturnToPool();
     }

@@ -5,15 +5,13 @@ public class StateRise : IState
     private readonly Rigidbody Rigidbody;
     private readonly SpeedData Speed;
 
-    private bool _isActive;
     private float _currentTime;
-    private readonly float RequiredTime = 3f;
+    private readonly float RequiredTime = 1f;
 
     public StateRise(Rigidbody rb, SpeedData data)
     {
         Rigidbody = rb;
         Speed = data;
-        _isActive = false;
         _currentTime = RequiredTime;
     }
 
@@ -23,8 +21,6 @@ public class StateRise : IState
         Rigidbody.velocity = Vector3.zero;
         Rigidbody.useGravity = true;
         Rigidbody.AddForce(Vector3.up * 100, ForceMode.Impulse);
-
-        //_isActive = true;
     }
 
     public void Update()
@@ -48,7 +44,6 @@ public class StateRise : IState
 
     public void Exit()
     {
-        _isActive = false;
         _currentTime = RequiredTime;
     }
 }

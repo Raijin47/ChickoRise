@@ -5,7 +5,7 @@ using UnityEngine;
 public class Factory : MonoBehaviour
 {
     [SerializeField] private ProjectileBase _projectile;
-    [SerializeField] private PlayerProjectile _lightball;
+    [SerializeField] private Lightball _lightball;
     [SerializeField] private Toadstool _toadstool;
 
     private Coroutine _coroutine;
@@ -31,16 +31,16 @@ public class Factory : MonoBehaviour
         _coroutine = StartCoroutine(SpawnToadstoolProcess());
     }
 
-    public void SpawnProjectile(Vector3 pos)
+    public void SpawnFireball(Vector3 pos)
     {
-        var projectile = _poolProjectile.Spawn(pos);
+        var fireball = _poolProjectile.Spawn(pos);
 
-        projectile.Die += Member_Die;
+        fireball.Die += Member_Die;
     }
 
-    public void SpawnLightball(Vector3 pos, Vector3 target)
+    public void SpawnLightball(Vector3 target)
     {
-        var lightball = _poolLightball.Spawn(pos);
+        var lightball = _poolLightball.Spawn(PlayerBase.Instance.ProjectileSpawnPoint);
         lightball.transform.LookAt(target);
 
         lightball.Die += Member_Die;
@@ -57,9 +57,13 @@ public class Factory : MonoBehaviour
 
     private void SpawnToadstool()
     {
-        Vector3 pos = new(Random.Range(-7.5f, 7.5f), 0, Game.Locator.Target.position.z + 300);
+        bool isLeft = Random.value > 0.5f;
+
+        Vector3 pos = new(isLeft ? -9.5f : 9.5f, 0.2f, Game.Locator.Target.position.z + 300);
 
         var toadstool = _poolToadstool.Spawn(pos);
+
+        toadstool.transform.rotation = Quaternion.Euler(0, isLeft ? 166 : -166, 0);
 
         toadstool.Die += Member_Die;
     }

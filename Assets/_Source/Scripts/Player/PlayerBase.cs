@@ -6,7 +6,7 @@ public class PlayerBase : MonoBehaviour
 
     [SerializeField] private GameObject _planningSkin;
     [SerializeField] private GameObject _racingSkin;
-
+    [SerializeField] private Transform _projectileSpawnPoint;
     [SerializeField] private ParticleSystem _particleTakeDamage;
     [SerializeField] private Transform _pivot;
     [SerializeField] private SpeedData _speed;
@@ -21,6 +21,7 @@ public class PlayerBase : MonoBehaviour
     public SpeedData Speed => _speed;
     public GameObject RacingSkin => _racingSkin;
     public GameObject PlanningSkin => _planningSkin;
+    public Vector3 ProjectileSpawnPoint => _projectileSpawnPoint.position;
 
     private void Awake() => Instance = this;
 
