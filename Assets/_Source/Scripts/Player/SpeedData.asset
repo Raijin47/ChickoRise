@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93dff70a810697489b02aae72b018ce, type: 3}
   m_Name: SpeedData
   m_EditorClassIdentifier: 
-  _horizontalSpeed: 250
+  _normalGroundSpeed: 50
   _rotateSpeed: 4
-  _normalGroundSpeed: 600
   _fastGroundSpeed: 600
   _horizontalGroundSpeed: 100
-  _freeFallSpeed: -20
-  _slowFallSpeed: -10
-  _fastFallSpeed: -30
-  _freeFlySpeed: 2000
-  _slowFlySpeed: 1000
-  _fastFlySpeed: 3000
+  _horizontalFlySpeed: 250
+  _flySpeed: 2500
+  _fallSpeed: -10
+  _forceImpulse: {x: 0, y: 100, z: 30}

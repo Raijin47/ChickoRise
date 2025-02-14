@@ -8,69 +8,80 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private GameObject _racingSkin;
     [SerializeField] private Transform _projectileSpawnPoint;
     [SerializeField] private ParticleSystem _particleTakeDamage;
+    [SerializeField] private ParticleSystem _particleSmoke;
     [SerializeField] private Transform _pivot;
     [SerializeField] private SpeedData _speed;
+    [SerializeField] private Collider _collider;
 
     private IState _currentState;
 
+    private Rigidbody _rigidbody;
+    private Coroutine _coroutine;
+    private InputHandler _input;
+
     private StateIdle _stateIdle;
-    private StateShooter _stateShooter;
+    private StateRacing _stateRacing;
     private StatePlanning _statePlanning;
     private StateRise _stateRise;
 
+    public Transform Transform => transform;
+    public StateIdle StateIdle => _stateIdle;
+    public StateRacing StateRacing => _stateRacing;
+    public StatePlanning StatePlanning => _statePlanning;
+    public StateRise StateRise => _stateRise;
+    public ParticleSystem ParticleSmoke => _particleSmoke;
+    public ParticleSystem ParticleTakeDamage => _particleTakeDamage;
+    public Rigidbody Rigidbody => _rigidbody;
     public SpeedData Speed => _speed;
+    public InputHandler Input => _input;
+    public Transform Pivot => _pivot;
     public GameObject RacingSkin => _racingSkin;
     public GameObject PlanningSkin => _planningSkin;
     public Vector3 ProjectileSpawnPoint => _projectileSpawnPoint.position;
+    public Collider Collider => _collider;
 
     private void Awake() => Instance = this;
 
     private void Start()
     {
-        var rigidbody = GetComponent<Rigidbody>();
-        var Input = GetComponent<InputHandler>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _input = GetComponent<InputHandler>();
 
         Game.Action.OnEnter += Action_OnEnter;
         Game.Action.OnExit += Action_OnExit;
 
-        _stateIdle = new(rigidbody, _speed);
-        _stateShooter = new(rigidbody, _speed, Input, _pivot);
-        _statePlanning = new(rigidbody, _speed, Input, _pivot);
-        _stateRise = new(rigidbody, _speed);
+        _stateIdle = new();
+        _stateRacing = new();
+        _statePlanning = new();
+        _stateRise = new();
         _currentState = _stateIdle;
     }
 
     private void Update() => _currentState.Update();
     private void FixedUpdate() =>  _currentState.FixedUpdate();
 
-    private void Action_OnExit()
-    {
-        transform.localPosition = Vector3.zero;
-        _pivot.localRotation = Quaternion.Euler(Vector3.zero);
-    }
+    private void Action_OnExit() => ChangeState(_stateIdle);
+    private void Action_OnEnter() => ChangeState(_stateRacing);
+    public void ApplyDamage() => _currentState.ApplyDamage();
 
-    private void Action_OnEnter() => ChangeState(_stateShooter);
-
-    public void ChangeState()
-    {
-        if(_currentState == _stateShooter)
-        {
-            ChangeState(_stateRise);
-            _particleTakeDamage.Play();
-            return;
-        }
-
-        if (_currentState == _stateRise)
-        {
-            ChangeState(_statePlanning);
-            return;
-        }
-    }
-
-    private void ChangeState(IState state)
+    public void ChangeState(IState state)
     {
         _currentState.Exit();
         _currentState = state;
         _currentState.Enter();
+    }
+
+    public void PlayCoroutine()
+    {
+        ReleaseCoroutine();
+        _coroutine = StartCoroutine(_currentState.Coroutine());
+    }
+
+    private void ReleaseCoroutine()
+    {
+        if (_coroutine == null) return;
+
+        StopCoroutine(_coroutine);
+        _coroutine = null;
     }
 }

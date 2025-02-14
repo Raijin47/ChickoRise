@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    private readonly string AxisHorizontal = "Horizontal";
-    private readonly string AxisVertical = "Vertical";
-
     [SerializeField] private Joystick _joystick;
     [SerializeField] private LayerMask _layer;
 
@@ -17,18 +14,19 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        //Horizontal = Input.GetAxis(AxisHorizontal);
-        //Vertical = Input.GetAxis(AxisVertical);
-
         Horizontal = _joystick.Horizontal;
         Vertical = _joystick.Vertical;
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        //if(Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, _layer, 1000))       
-                Game.Locator.Factory.SpawnLightball(hit.point);            
-        }
+        //    if (Physics.Raycast(ray, out RaycastHit hit, _layer))
+        //    {
+        //        Debug.Log(hit);
+        //        Game.Locator.Factory.SpawnLightball(hit.point);
+        //    }
+
+        //}
     }
 }

@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 7365502711148313778}
   - component: {fileID: 2435633188183088777}
   - component: {fileID: 7345066940326286240}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: End_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,23 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class StatePlanning : IState
 {
-    private readonly Rigidbody Rigidbody;
-    private readonly SpeedData Speed;
-    private readonly InputHandler Input;
-    private readonly Transform Pivot;
+    private readonly PlayerBase Player;
 
-    private readonly float LimitAngle = 30f;
+    private readonly float LimitAngle = 20f;
 
     private float _angle;
 
-    public StatePlanning(Rigidbody rb, SpeedData data, InputHandler input, Transform pivot)
-    {
-        Rigidbody = rb;
-        Speed = data;
-        Input = input;
-        Pivot = pivot;
-    }
+    public StatePlanning() => Player = PlayerBase.Instance;
 
     public void Enter()
     {
@@ -26,27 +18,28 @@ public class StatePlanning : IState
 
     public void Update()
     {
-        _angle = Input.Horizontal == 0 ? 0 : Input.Horizontal > 0 ? -LimitAngle : LimitAngle;
+        _angle = Player.Input.Horizontal == 0 ? 0 : Player.Input.Horizontal > 0 ? -LimitAngle : LimitAngle;
 
-        Pivot.localRotation = Quaternion.Lerp(Pivot.localRotation, 
+        Player.Pivot.localRotation = Quaternion.Lerp(Player.Pivot.localRotation, 
             Quaternion.Euler(new Vector3(0, 0, _angle)), 
-            Time.deltaTime * Speed.RotateSpeed);
+            Time.deltaTime * Player.Speed.RotateSpeed);
+    }
+
+    public IEnumerator Coroutine()
+    {
+        yield return null;
     }
 
     public void FixedUpdate()
     {
-        float gravity = Input.Vertical == 0 ? Speed.FreeFallSpeed :
-            Input.Vertical > 0 ? Speed.SlowFallSpeed : Speed.FastFallSpeed;
+        float horizontal = Player.Input.Horizontal * Player.Speed.HorizontalFlySpeed;
 
-        float horizontal = Input.Horizontal * Speed.HorizontalSpeed;
+        Vector3 direction = new(horizontal, Player.Speed.FallSpeed, Player.Speed.FlySpeed);
 
-        float forward = Input.Vertical == 0 ? Speed.FreeFlySpeed :
-            Input.Vertical > 0 ? Speed.FastFlySpeed : Speed.SlowFlySpeed;
-
-        Vector3 direction = new(horizontal, gravity, forward);
-
-        Rigidbody.velocity = Time.fixedDeltaTime * direction;
+        Player.Rigidbody.velocity = Time.fixedDeltaTime * direction;
     }
+
+    public void ApplyDamage() { }
 
     public void Exit()
     {

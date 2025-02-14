@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Factory : MonoBehaviour
 {
-    [SerializeField] private ProjectileBase _projectile;
+    [SerializeField] private Fireball _projectile;
     [SerializeField] private Lightball _lightball;
     [SerializeField] private Toadstool _toadstool;
 

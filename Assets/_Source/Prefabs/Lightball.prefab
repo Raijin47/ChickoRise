@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8130660991776433200}
   - component: {fileID: 8640366629401815082}
   - component: {fileID: 3321463211241845115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4844,7 +4844,7 @@ GameObject:
   - component: {fileID: 4500656185921807270}
   - component: {fileID: 4500656185921807268}
   - component: {fileID: 4500656185921807269}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9668,7 +9668,7 @@ GameObject:
   - component: {fileID: 4500656186227331842}
   - component: {fileID: 4500656186227331843}
   - component: {fileID: 4500656186227331900}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CFXR3 Lightball B + Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14423,7 +14423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4500656186284453880}
   - component: {fileID: 4500656186284453881}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14518,7 +14518,7 @@ GameObject:
   - component: {fileID: 4747743735068485980}
   - component: {fileID: 4192053963870189179}
   - component: {fileID: 4997196169537037370}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Glow Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19342,7 +19342,7 @@ GameObject:
   - component: {fileID: 7921399878620018190}
   - component: {fileID: 7921399878620018191}
   - component: {fileID: 7921399878620018224}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Lightball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19357,7 +19357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7921399878620018225}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.33, y: 2.53, z: 3.269}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

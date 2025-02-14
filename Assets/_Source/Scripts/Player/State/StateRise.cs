@@ -1,49 +1,41 @@
+using System.Collections;
 using UnityEngine;
 
 public class StateRise : IState
 {
-    private readonly Rigidbody Rigidbody;
-    private readonly SpeedData Speed;
+    private readonly PlayerBase Player;
+    private readonly WaitForSeconds Delay = new(1f);
 
-    private float _currentTime;
-    private readonly float RequiredTime = 1f;
-
-    public StateRise(Rigidbody rb, SpeedData data)
-    {
-        Rigidbody = rb;
-        Speed = data;
-        _currentTime = RequiredTime;
-    }
+    public StateRise() => Player = PlayerBase.Instance;
 
     public void Enter()
     {
-        PlayerBase.Instance.PlanningSkin.SetActive(true);
-        Rigidbody.velocity = Vector3.zero;
-        Rigidbody.useGravity = true;
-        Rigidbody.AddForce(Vector3.up * 100, ForceMode.Impulse);
+        Player.PlanningSkin.SetActive(true);
+        Player.Rigidbody.velocity = Vector3.zero;
+        Player.ParticleSmoke.Play();
+        Player.PlayCoroutine();
     }
 
-    public void Update()
+    public void Update() { }
+    public void FixedUpdate() { }
+    
+    public IEnumerator Coroutine()
     {
-        if (_currentTime > 0)
-        {
-            _currentTime -= Time.deltaTime;
-            return;
-        }
+        yield return Delay;
 
-        PlayerBase.Instance.ChangeState();
+        Player.Rigidbody.useGravity = true;
+        Player.Rigidbody.AddForce(Player.Speed.ForceImpulse, ForceMode.Impulse);
+
+        yield return Delay;
+
+        Player.ChangeState(Player.StatePlanning);
     }
 
-    public void FixedUpdate()
-    {
-        //if (!_isActive) return;
-        //if (Rigidbody.velocity.y > 0) return;
-
-        //PlayerBase.Instance.ChangeState();
-    }
+    public void ApplyDamage() { }
 
     public void Exit()
     {
-        _currentTime = RequiredTime;
+        Player.ParticleSmoke.Stop();
+        Player.Rigidbody.useGravity = false;
     }
 }
