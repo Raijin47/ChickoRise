@@ -9,8 +9,7 @@ public class StateIdle : IState
 
     public void Enter()
     {
-        Player.Transform.localPosition = Vector3.zero;
-        Player.Pivot.localRotation = Quaternion.Euler(Vector3.zero);
+        Player.Animator.SetBool("IsGame", false);
     }
 
     public void Update()
@@ -30,8 +29,13 @@ public class StateIdle : IState
 
     public void ApplyDamage() { }
 
-    public void Exit()
+    public void OnCollisionEnter(Collision collision)
     {
 
+    }
+
+    public void Exit()
+    {
+        Player.Animator.SetBool("IsGame", true);
     }
 }

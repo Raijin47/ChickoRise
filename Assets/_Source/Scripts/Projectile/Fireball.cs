@@ -21,12 +21,12 @@ public class Fireball : PoolMember
 
     private IEnumerator MovementProcess()
     {
-        while (transform.position.z > Game.Locator.Target.position.z)
+        while (transform.position.z > Game.Locator.Target.position.z + 20)
         {
             Vector3 direction = Game.Locator.Target.position - transform.position;
             Quaternion rotation = Quaternion.LookRotation(direction);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 100);
             transform.position += _speed * Time.deltaTime * transform.forward;
 
             yield return null;

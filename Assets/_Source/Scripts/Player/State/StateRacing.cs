@@ -12,7 +12,7 @@ public class StateRacing : IState
 
     public void Enter()
     {
-
+        Game.Action.SendStart();
     }
 
     public void Update()
@@ -43,9 +43,10 @@ public class StateRacing : IState
         Player.ParticleTakeDamage.Play();
         Player.ChangeState(Player.StateRise);
     }
-
+    public void OnCollisionEnter(Collision collision) { }
     public void Exit()
     {
         Player.RacingSkin.SetActive(false);
+        Game.Locator.Statistic.StartPlanning = Player.Transform.position.z;
     }
 }

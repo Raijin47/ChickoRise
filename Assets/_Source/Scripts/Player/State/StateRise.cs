@@ -13,6 +13,7 @@ public class StateRise : IState
         Player.PlanningSkin.SetActive(true);
         Player.Rigidbody.velocity = Vector3.zero;
         Player.ParticleSmoke.Play();
+        Game.Audio.PlayClip(1);
         Player.PlayCoroutine();
     }
 
@@ -32,7 +33,7 @@ public class StateRise : IState
     }
 
     public void ApplyDamage() { }
-
+    public void OnCollisionEnter(Collision collision) { }
     public void Exit()
     {
         Player.ParticleSmoke.Stop();

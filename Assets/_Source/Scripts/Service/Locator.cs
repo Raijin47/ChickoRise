@@ -9,7 +9,9 @@ public class Locator
     [SerializeField] private Factory _factory;
     [SerializeField] private ChunkHandler _chunk;
     [SerializeField] private PlayerBase _player;
+    [SerializeField] private GameStatistic _statistic;
 
+    public GameStatistic Statistic => _statistic;
     public InputHandler Input => _input;
     public Transform Target => _target;
     public Factory Factory => _factory;

@@ -5,7 +5,7 @@ public class Lightball : PoolMember
 {
     [SerializeField] private ParticleSystem _particle;
 
-    private const float _speed = 50f;
+    private const float _speed = 100f;
     private Coroutine _coroutine;
 
     public override void Init() => Resurrect();
@@ -37,7 +37,15 @@ public class Lightball : PoolMember
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Toadstool enemy))
+        {
+            Game.Audio.PlayClip(0);
             enemy.ReturnToPool();
+
+            Game.Locator.Statistic.KilledEnemy++;
+        }
+
+        Game.Locator.Factory.Lightball.transform.position = transform.position;
+        Game.Locator.Factory.Lightball.Play();
 
         ReturnToPool();
     }

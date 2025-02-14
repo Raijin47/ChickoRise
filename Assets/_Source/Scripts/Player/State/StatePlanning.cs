@@ -13,7 +13,8 @@ public class StatePlanning : IState
 
     public void Enter()
     {
-
+        Player.Collider.isTrigger = false;
+        Player.TrailFX.Play();
     }
 
     public void Update()
@@ -41,8 +42,13 @@ public class StatePlanning : IState
 
     public void ApplyDamage() { }
 
+    public void OnCollisionEnter(Collision collision) 
+    {
+        Player.ChangeState(Player.StateLose);
+    }
+
     public void Exit()
     {
-
+        Player.TrailFX.Stop();
     }
 }

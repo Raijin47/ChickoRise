@@ -8,12 +8,19 @@ public class Factory : MonoBehaviour
     [SerializeField] private Lightball _lightball;
     [SerializeField] private Toadstool _toadstool;
 
+    [Space(10)]
+    [SerializeField] private ParticleSystem _lightballExplosionFX;
+
+    private readonly List<PoolMember> Members = new();
+
+    public ParticleSystem Lightball => _lightballExplosionFX;
+
     private Coroutine _coroutine;
     private Pool _poolProjectile;
     private Pool _poolToadstool;
     private Pool _poolLightball;
 
-    private readonly WaitForSeconds IntervalSpawn = new(7.5f);
+    private readonly WaitForSeconds IntervalSpawn = new(5f);
 
     private void Start()
     {
@@ -21,11 +28,19 @@ public class Factory : MonoBehaviour
         _poolToadstool = new(_toadstool);
         _poolLightball = new(_lightball);
 
-        Game.Action.OnEnter += Action_OnEnter;
+        Game.Action.OnStart += Action_OnStart;
         Game.Action.OnLose += Release;
+        Game.Action.OnExit += Action_OnExit;
+        Game.Action.OnRestart += Action_OnExit;
     }
 
-    private void Action_OnEnter()
+    private void Action_OnExit()
+    {
+        for (int i = Members.Count - 1; i >= 0; i--)
+            Members[i].ReturnToPool();
+    }
+
+    private void Action_OnStart()
     {
         Release();
         _coroutine = StartCoroutine(SpawnToadstoolProcess());
@@ -35,6 +50,9 @@ public class Factory : MonoBehaviour
     {
         var fireball = _poolProjectile.Spawn(pos);
 
+        Game.Audio.PlayClip(2);
+
+        Members.Add(fireball);
         fireball.Die += Member_Die;
     }
 
@@ -43,6 +61,9 @@ public class Factory : MonoBehaviour
         var lightball = _poolLightball.Spawn(PlayerBase.Instance.ProjectileSpawnPoint);
         lightball.transform.LookAt(target);
 
+        Game.Audio.PlayClip(3);
+
+        Members.Add(lightball);
         lightball.Die += Member_Die;
     }
 
@@ -65,12 +86,13 @@ public class Factory : MonoBehaviour
 
         toadstool.transform.rotation = Quaternion.Euler(0, isLeft ? 166 : -166, 0);
 
+        Members.Add(toadstool);
         toadstool.Die += Member_Die;
     }
 
     private void Member_Die(PoolMember obj)
     {
-        
+        Members.Remove(obj);
         obj.Die -= Member_Die;
     }
 
