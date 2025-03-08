@@ -1,45 +1,21 @@
-using System.Collections;
 using UnityEngine;
 
-public class Toadstool : PoolMember
+public class Toadstool : BaseEnemy
 {
-    [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private Transform _target;
+    private readonly WaitForSeconds IntervalSpawn = new(3f);
 
-    private Coroutine _coroutine;
-
-    private readonly WaitForSeconds Interval = new(3f);
-
-    public override void Init() => Resurrect();
-
-    public override void Resurrect()
+    protected override void SpawnProjectile()
     {
-        ReleaseCoroutine();
-        _coroutine = StartCoroutine(UpdateProcess());
-    }
-    
-    private IEnumerator UpdateProcess()
-    {
-        while (transform.position.z > Game.Locator.Target.position.z + 10)
-        {
-            yield return Interval;
-            Game.Locator.Factory.SpawnFireball(_spawnPoint.position);
-        }
-
-        while (transform.position.z > Game.Locator.Target.position.z)
-            yield return Interval;  
-
-        yield return Interval;
-
-        ReturnToPool();
+        Game.Locator.Factory.SpawnFireball(_spawnPoint.position);
     }
 
-    private void ReleaseCoroutine()
+    protected override bool CheckDistance()
     {
-        if(_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-            _coroutine = null;
-        }
+        return transform.position.z > Game.Locator.Target.position.z + 20;
+    }
+
+    protected override WaitForSeconds Delay()
+    {
+        return IntervalSpawn;
     }
 }

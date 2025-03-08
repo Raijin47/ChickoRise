@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Fireball : PoolMember
 {
-    [SerializeField] private ParticleSystem _particle;
-
     private const float _speed = 50f;
     private Coroutine _coroutine;
 

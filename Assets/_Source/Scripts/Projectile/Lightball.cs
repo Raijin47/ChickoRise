@@ -36,7 +36,7 @@ public class Lightball : PoolMember
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Toadstool enemy))
+        if (other.TryGetComponent(out BaseEnemy enemy))
         {
             Game.Audio.PlayClip(0);
             enemy.ReturnToPool();

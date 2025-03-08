@@ -25,7 +25,7 @@ public class InputHandler : MonoBehaviour
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, MaxDistance, _layer))
             {
-                if (hit.collider.TryGetComponent(out Toadstool _))
+                if (hit.collider.TryGetComponent(out BaseEnemy _))
                     Game.Locator.Factory.SpawnLightball(hit.point);
             }
         }

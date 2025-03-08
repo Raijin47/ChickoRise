@@ -43,8 +43,11 @@ public class StateLose : IState
         Player.Rigidbody.angularVelocity = Vector3.zero;
         Player.Rigidbody.velocity = Vector3.zero;
 
-        Player.Transform.localPosition = new Vector3(0, 0, Player.Transform.position.z);
-        Player.Transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Player.Rigidbody.MovePosition(new Vector3(0, 0, Player.Transform.position.z));
+        Player.Rigidbody.MoveRotation(Quaternion.Euler(Vector3.zero));
+
+        //Player.Transform.localPosition = new Vector3(0, 0, Player.Transform.position.z);
+        //Player.Transform.localRotation = Quaternion.Euler(Vector3.zero);
         Player.Pivot.localRotation = Quaternion.Euler(Vector3.zero);
     }
 }

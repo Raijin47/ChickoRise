@@ -4,7 +4,8 @@ using UnityEngine;
 public class StateRise : IState
 {
     private readonly PlayerBase Player;
-    private readonly WaitForSeconds Delay = new(1f);
+    private readonly WaitForSeconds Delay = new(.5f);
+    private readonly WaitForSeconds Life = new(1f);
 
     public StateRise() => Player = PlayerBase.Instance;
 
@@ -25,9 +26,9 @@ public class StateRise : IState
         yield return Delay;
 
         Player.Rigidbody.useGravity = true;
-        Player.Rigidbody.AddForce(Player.Speed.ForceImpulse, ForceMode.Impulse);
+        Player.Rigidbody.AddForce(Player.Speed.ForceImpulse * (1 + Game.Data.Saves.Upgrades[2] * 0.1f), ForceMode.Impulse);
 
-        yield return Delay;
+        yield return Life;
 
         Player.ChangeState(Player.StatePlanning);
     }

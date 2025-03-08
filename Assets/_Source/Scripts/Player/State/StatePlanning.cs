@@ -9,12 +9,16 @@ public class StatePlanning : IState
 
     private float _angle;
 
+    private float _speed;
+
     public StatePlanning() => Player = PlayerBase.Instance;
 
     public void Enter()
     {
         Player.Collider.isTrigger = false;
         Player.TrailFX.Play();
+        _speed = Player.Speed.FlySpeed * (1 + Game.Data.Saves.Upgrades[1] * 0.1f);
+        Game.Locator.Factory.StartHard();
     }
 
     public void Update()
@@ -35,12 +39,15 @@ public class StatePlanning : IState
     {
         float horizontal = Player.Input.Horizontal * Player.Speed.HorizontalFlySpeed;
 
-        Vector3 direction = new(horizontal, Player.Speed.FallSpeed, Player.Speed.FlySpeed);
+        Vector3 direction = new(horizontal, Player.Speed.FallSpeed, _speed);
 
         Player.Rigidbody.velocity = Time.fixedDeltaTime * direction;
     }
 
-    public void ApplyDamage() { }
+    public void ApplyDamage() 
+    { 
+        Player.ChangeState(Player.StateLose);
+    }
 
     public void OnCollisionEnter(Collision collision) 
     {

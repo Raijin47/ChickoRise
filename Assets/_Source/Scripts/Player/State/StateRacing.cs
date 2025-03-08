@@ -7,12 +7,14 @@ public class StateRacing : IState
     private readonly float LimitAngle = 10f;
 
     private float _angle;
+    private float _speed;
 
     public StateRacing() => Player = PlayerBase.Instance;
 
     public void Enter()
     {
         Game.Action.SendStart();
+        _speed = Player.Speed.FastGroundSpeed * (1 + Game.Data.Saves.Upgrades[0] * 0.1f);
     }
 
     public void Update()
@@ -33,7 +35,7 @@ public class StateRacing : IState
     {
         float horizontal = Player.Input.Horizontal * Player.Speed.HorizontalGroundSpeed;
 
-        Vector3 direction = new(horizontal, 0, Player.Speed.FastGroundSpeed);
+        Vector3 direction = new(horizontal, 0, _speed);
 
         Player.Rigidbody.velocity = Time.fixedDeltaTime * direction;
     }
